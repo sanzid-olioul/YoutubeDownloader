@@ -4,7 +4,7 @@ from tkinter import ttk
 from tkinter import filedialog
 
 from home import HomeTab
-
+from download import DownloadTab
 class YoutubeDownloader:
     def __init__(self) -> None:
         self.__root = tkinter.Tk()
@@ -32,7 +32,8 @@ class YoutubeDownloader:
         download_image = tkinter.PhotoImage(file='images/download.png')
         download_tab = ttk.Frame(self._tab)
         self._tab.add(download_tab,text='Download',image=download_image,compound='left')
-
+        download = DownloadTab(download_tab)
+        download.add()
 
     def _compleated_tab(self):
         complete_image = tkinter.PhotoImage(file='images/check.png')
