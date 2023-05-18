@@ -1,4 +1,5 @@
 from gui.main_gui import YoutubeDownloader
+
 def main():
     downloader = YoutubeDownloader()
     downloader.download()
