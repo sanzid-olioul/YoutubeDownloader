@@ -68,7 +68,7 @@ class HomeTab:
 
         download_folder = tkinter.Entry(self.home_tab,textvariable=self.download_directory,bg='#6DA5C0',disabledbackground='#6DA5C0',fg='#072E33',font=('Helvetica',18),border='2',width=44,state='disabled')
         download_folder.grid(column=1,row=1,columnspan=3,padx=10,pady=10)
-        download_folder_button = tkinter.Button(self.home_tab,text='Select',image=self.folder,compound='left',bg='#0C7075',fg='#6DA5C0',font=('Helvetica',18,'bold'),command=self.set_download_directory)
+        download_folder_button = tkinter.Button(self.home_tab,text='Select',image=self.folder,compound='left',bg='#0C7075',fg='#6DA5C0',font=('Helvetica',18,'bold'),command=self.set_download_directory,padx=8)
         download_folder_button.grid(column=4,row=1,padx=10,pady=10)
 
 
