@@ -3,7 +3,7 @@ import threading
 from tkinter import filedialog
 from downloader.base import VideoPlayList,SingleVidio
 class HomeTab:
-    def __init__(self,home_tab):
+    def __init__(self,home_tab,download_obj,completed_obj):
         self.home_tab = home_tab
         self.link = tkinter.StringVar()
         self.number_of_vidios = tkinter.StringVar()
@@ -11,6 +11,8 @@ class HomeTab:
         self.download_directory.set('downloads')
         self.download_directory = tkinter.StringVar()
         self.download_directory.set('downloads')
+        self.download_obj = download_obj
+        self.completed_obj = completed_obj
 
     def check_vidio(self):
         if self.download_directory.get() != '':
@@ -18,12 +20,13 @@ class HomeTab:
         else:
             SingleVidio.set_download_path('downloads/')
         try:
-            self.video = VideoPlayList(str(self.link.get()))
+            self.video = VideoPlayList(str(self.link.get()),self.download_obj,self.completed_obj)
             self.number_of_vidios.set(str(self.video._total_video)+ ' Total Number of vidios')
-        except:
+        except Exception as e:
             try:
-                self.video = SingleVidio(str(self.link.get()))
+                self.video = SingleVidio(str(self.link.get()),self.download_obj,self.completed_obj)
                 self.number_of_vidios.set('Only one video exists')
+                print(e)
             except:
                 self.number_of_vidios.set('Invalid Link')
     
@@ -38,10 +41,12 @@ class HomeTab:
             try:
                 self.video.download(1)
             except Exception as e:
-                print(e)
+                e = str(e)
+                self.number_of_vidios.set(e)
 
     def run_process(self):
         process = threading.Thread(target=self.download_vidios)
+        self.number_of_vidios.set('Download Started')
         process.start()
 
     def add(self):

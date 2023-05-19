@@ -11,7 +11,10 @@ class Compleated:
         self.fTable.config(bg='#0F969C')
         self.sbHorizontalScrollBar = tkinter.Scrollbar(self.complete_tab)
         self.sbVerticalScrollBar = tkinter.Scrollbar(self.complete_tab)
-        
+        title = tkinter.Label(self.fTable,text='Compleated',bg='#0F969C',fg='#072E33',padx=320,pady=10,font=('Times',24,'bold'))
+        title.grid(column=0,row=0,columnspan=1,padx=10,pady=10,sticky='WENS')
+        self._createScrollableContainer()
+
     def _updateScrollRegion(self):
         self.cTableContainer.update_idletasks()
         self.cTableContainer.config(scrollregion=self.fTable.bbox())
@@ -32,10 +35,3 @@ class Compleated:
         compleated_video.grid(row=Compleated.__row_count, column=0)
         self._updateScrollRegion()
         
-
-    def sanzid(self):
-        title = tkinter.Label(self.fTable,text='Compleated',bg='#0F969C',fg='#072E33',padx=320,pady=10,font=('Times',24,'bold'))
-        title.grid(column=0,row=0,columnspan=1,padx=10,pady=10,sticky='WENS')
-        self._createScrollableContainer()
-        for _ in range(100):
-            self.addNewLabel('ABC DE'*15)

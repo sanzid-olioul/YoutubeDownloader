@@ -1,26 +1,42 @@
 from pytube import Playlist,YouTube
 import concurrent.futures
 class SingleVidio:
-    _download_path = 'Download'
+    _download_path = 'Downloads'
     _compleated = 0
-    def __init__(self,url) -> None:
+    available = [4,3,2,1]
+    blocked = dict()
+    def __init__(self,url,download_obj,completed_obj) -> None:
         self.url = url
         self.location = SingleVidio._download_path
+        self.download_obj = download_obj
+        self.completed_obj = completed_obj
+        self.is_called = False
+
     def percent(self, tem, total):
         perc = round(float(tem) / float(total) * float(100),2)
         return perc
+    
     def progress_function(self,stream,chalk ,bytes_remaining):        
         size = stream.filesize
-        print(stream.title,self.percent(size-bytes_remaining,size))
-       
+        if not self.is_called:
+            self.col= SingleVidio.available.pop()
+            SingleVidio.blocked[stream.title] = self.col
+            self.is_called = True
+        self.download_obj.add_prgoress(self.col,stream.title,self.percent(size - bytes_remaining,size))
+
+    def complete_function(self,stream,chalk):
+        SingleVidio.available.append(self.blocked.get(stream.title))
+        self.completed_obj.addNewLabel(stream.title)
+
 
     def download(self,counter):
-        
-        video = YouTube(self.url,on_progress_callback=self.progress_function).\
+        self.counter = counter
+        video = YouTube(self.url,on_progress_callback=self.progress_function,on_complete_callback=self.complete_function).\
             streams.filter(type='video', progressive=True, file_extension='mp4')\
             .order_by('resolution').desc().first()
-        print(self.location)
-        video.download(output_path=self.location,filename_prefix=str(counter)+' . ')
+        print(SingleVidio._download_path)
+        video.download(output_path=SingleVidio._download_path,filename_prefix=str(counter)+' . ')
+        SingleVidio._compleated+=1
     
 
     @classmethod
@@ -30,14 +46,15 @@ class SingleVidio:
 class VideoPlayList:
     _total_video = 0
     
-    def __init__(self,url) -> None:
+    def __init__(self,url,download_obj,completed_obj) -> None:
         self.url = url
-        print(url)
         self.lists = Playlist(self.url)
+        self.download_obj = download_obj
+        self.completed_obj = completed_obj
         VideoPlayList._total_video = len(self.lists.videos)
     def download_all(self):
         links = [url.watch_url for url in self.lists.videos]
-        vidios = [SingleVidio(link) for link in links]
+        vidios = [SingleVidio(link,self.download_obj,self.completed_obj) for link in links]
         with concurrent.futures.ThreadPoolExecutor(4) as executor:
             results = []
             for i,vidio in enumerate(vidios):
