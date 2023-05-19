@@ -25,7 +25,7 @@ class HomeTab:
             SingleVidio.set_download_path('downloads/')
         try:
             self.video = VideoPlayList(str(self.link.get()),self.download_obj,self.completed_obj)
-            self.number_of_vidios.set(str(self.video._total_video)+ ' Total Number of vidios')
+            self.number_of_vidios.set(str(self.video._total_video)+ ' Total Number of videos')
         except Exception as e:
             try:
                 self.video = SingleVidio(str(self.link.get()),self.download_obj,self.completed_obj)
