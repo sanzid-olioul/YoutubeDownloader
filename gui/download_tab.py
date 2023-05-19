@@ -8,7 +8,7 @@ class DownloadTab:
         title.grid(column=0,row=0,columnspan=3,padx=300,pady=10,sticky='WENS')
 
     def progress_bar(self,col,row,text):
-        text = text if len(text) <=65 else text[:65]+ ' ...'
+        text = text if len(text) <=75 else text[:75]+ ' ...'
         title = ttk.Label(self.download_tab, text=text,background='#0F969C',foreground='white',font="18")
         title.grid(column=0, row=2*row,sticky='W',padx=20)
         pb = ttk.Progressbar(
@@ -28,7 +28,7 @@ class DownloadTab:
 
 
     def progress(self,pb,value_label,parcent):
-        pb['value'] = parcent
+        pb['value'] = parcent%100
         value_label['text'] = self.update_progress_label(pb)
 
     '''

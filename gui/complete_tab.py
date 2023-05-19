@@ -30,8 +30,8 @@ class Compleated:
 
     def addNewLabel(self,text):
         Compleated.__row_count+=1
-        text = text if len(text) <61 else text[:61]
-        compleated_video = tkinter.Label(self.fTable,background='#0F969C',foreground='white',font="18", text=f'{Compleated.__row_count} . {text} ...',padx=15,pady=10)
-        compleated_video.grid(row=Compleated.__row_count, column=0)
+        text = text if len(text) <75 else text[:75] + '...'
+        compleated_video = tkinter.Label(self.fTable,background='#0F969C',foreground='white',font="18", text=f'{Compleated.__row_count} . {text}',padx=15,pady=10)
+        compleated_video.grid(row=Compleated.__row_count, column=0,sticky='W')
         self._updateScrollRegion()
         

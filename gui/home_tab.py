@@ -1,3 +1,5 @@
+import os
+import pathlib
 import tkinter
 import threading
 from tkinter import filedialog
@@ -13,6 +15,8 @@ class HomeTab:
         self.download_directory.set('downloads')
         self.download_obj = download_obj
         self.completed_obj = completed_obj
+        self.BASE_DIR = pathlib.Path(__file__).resolve().parent.parent
+        self.folder = tkinter.PhotoImage(file= os.path.join(self.BASE_DIR,'images','folder.png'))
 
     def check_vidio(self):
         if self.download_directory.get() != '':
@@ -54,7 +58,7 @@ class HomeTab:
         title.grid(column=0,row=0,columnspan=5,padx=10,pady=10,sticky='WENS')
         link_label = tkinter.Label(self.home_tab,text='Link : ',bg='#0F969C',fg='#072E33',padx=10,pady=10,font=('Helvetica',18,'bold'))
         link_label.grid(column=0,row=2,padx=10,pady=10)
-        input_value = tkinter.Entry(self.home_tab,textvariable=self.link,bg='#6DA5C0',fg='#072E33',font=('Helvetica',18,),border='2',width=46)
+        input_value = tkinter.Entry(self.home_tab,textvariable=self.link,bg='#6DA5C0',fg='#072E33',font=('Helvetica',18,),border='2',width=44)
         input_value.grid(column=1,row=2,columnspan=3,padx=10,pady=10)
         check_button = tkinter.Button(self.home_tab,text='Check',bg='#0C7075',fg='#6DA5C0',font=('Helvetica',18,'bold'),command=self.check_vidio)
         check_button.grid(column=4,row=2,padx=10,pady=10)
@@ -62,9 +66,9 @@ class HomeTab:
         download_label = tkinter.Label(self.home_tab,text='Folder:',bg='#0F969C',fg='#072E33',padx=10,pady=10,font=('Helvetica',16,'bold'))
         download_label.grid(column=0,row=1,padx=10,pady=10,sticky='WENS')
 
-        download_folder = tkinter.Entry(self.home_tab,textvariable=self.download_directory,bg='#6DA5C0',disabledbackground='#6DA5C0',fg='#072E33',font=('Helvetica',18),border='2',width=46,state='disabled')
+        download_folder = tkinter.Entry(self.home_tab,textvariable=self.download_directory,bg='#6DA5C0',disabledbackground='#6DA5C0',fg='#072E33',font=('Helvetica',18),border='2',width=44,state='disabled')
         download_folder.grid(column=1,row=1,columnspan=3,padx=10,pady=10)
-        download_folder_button = tkinter.Button(self.home_tab,text='Select',bg='#0C7075',fg='#6DA5C0',font=('Helvetica',18,'bold'),command=self.set_download_directory)
+        download_folder_button = tkinter.Button(self.home_tab,text='Select',image=self.folder,compound='left',bg='#0C7075',fg='#6DA5C0',font=('Helvetica',18,'bold'),command=self.set_download_directory)
         download_folder_button.grid(column=4,row=1,padx=10,pady=10)
 
 
