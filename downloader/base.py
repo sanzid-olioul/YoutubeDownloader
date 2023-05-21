@@ -1,6 +1,13 @@
 from pytube import Playlist,YouTube
 import concurrent.futures
 class SingleVidio:
+    '''
+        It is Single video download class
+        It takes 3 arguments
+            1. url of video
+            2. download tab gui object
+            3. complete tab gui object.
+    '''
     _download_path = 'Downloads'
     _compleated = 0
     available = [4,3,2,1]
@@ -29,7 +36,11 @@ class SingleVidio:
         self.completed_obj.addNewLabel(stream.title)
 
 
-    def download(self,counter):
+    def download(self,counter=1):
+        '''
+            start download
+            takes one argument of vidio umber default is 1.
+        '''
         self.counter = counter
         video = YouTube(self.url,on_progress_callback=self.progress_function,on_complete_callback=self.complete_function).\
             streams.filter(type='video', progressive=True, file_extension='mp4')\
@@ -44,6 +55,13 @@ class SingleVidio:
         cls._download_path = path_
 
 class VideoPlayList:
+    '''
+        It is a playlist download class
+        It takes 3 arguments
+            1. url of video
+            2. download tab gui object
+            3. complete tab gui object.
+    '''
     _total_video = 0
     
     def __init__(self,url,download_obj,completed_obj) -> None:
@@ -53,6 +71,9 @@ class VideoPlayList:
         self.completed_obj = completed_obj
         VideoPlayList._total_video = len(self.lists.videos)
     def download_all(self):
+        '''
+            Start download.
+        '''
         links = [url.watch_url for url in self.lists.videos]
         vidios = [SingleVidio(link,self.download_obj,self.completed_obj) for link in links]
         with concurrent.futures.ThreadPoolExecutor(4) as executor:

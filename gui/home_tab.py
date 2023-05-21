@@ -5,6 +5,13 @@ import threading
 from tkinter import filedialog
 from downloader.base import VideoPlayList,SingleVidio
 class HomeTab:
+    '''
+        It is the home tab gui creation class
+        It takes 3 agruments,
+            1. Where it will place
+            2. Download object
+            3. Compleated oject .
+    '''
     def __init__(self,home_tab,download_obj,completed_obj):
         self.home_tab = home_tab
         self.link = tkinter.StringVar()
@@ -19,6 +26,10 @@ class HomeTab:
         self.folder = tkinter.PhotoImage(file= os.path.join(self.BASE_DIR,'images','folder.png'))
 
     def check_vidio(self):
+        '''
+            It checks whether the link is valid or not and if valid then check how
+            many videos available of that playlist.
+        '''
         if self.download_directory.get() != '':
             SingleVidio.set_download_path(self.download_directory.get())
         else:
@@ -35,10 +46,16 @@ class HomeTab:
                 self.number_of_vidios.set('Invalid Link')
     
     def set_download_directory(self):
+        '''
+            It opens the directory where you wnat to download the videos.
+        '''
         self.download_directory.set(filedialog.askdirectory(title='Select a Folder to Download'))
         SingleVidio.set_download_path(self.download_directory.get())
 
     def download_vidios(self):
+        '''
+            It stars downloading the vidios.
+        '''
         try:
             self.video.download_all()
         except:
@@ -49,11 +66,17 @@ class HomeTab:
                 self.number_of_vidios.set(e)
 
     def run_process(self):
+        '''
+            It starts new process for downloading YouTube videos, And call download_vidios method.
+        '''
         process = threading.Thread(target=self.download_vidios)
         self.number_of_vidios.set('Download Started')
         process.start()
 
     def add(self):
+        '''
+            Adds all the graphical components to home tab.
+        '''
         title = tkinter.Label(self.home_tab,text='Best Youtube Downloader',bg='#0F969C',fg='#072E33',padx=10,pady=10,font=('Times',24,'bold'))
         title.grid(column=0,row=0,columnspan=5,padx=10,pady=10,sticky='WENS')
         link_label = tkinter.Label(self.home_tab,text='Link : ',bg='#0F969C',fg='#072E33',padx=10,pady=10,font=('Helvetica',18,'bold'))

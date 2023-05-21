@@ -7,6 +7,10 @@ from .download_tab import DownloadTab
 from .complete_tab import Compleated
 
 class YoutubeDownloader:
+    '''
+    It creates a tkinter gui and adds all components
+    and connects to base downloader to gui.
+    '''
     def __init__(self) -> None:
         self.BASE_DIR = pathlib.Path(__file__).resolve().parent.parent
         self.__root = tkinter.Tk()
@@ -24,6 +28,9 @@ class YoutubeDownloader:
         s.configure('TFrame', background='#0F969C')
     
     def __add(self):
+        '''
+            It adds tabs of to ttk Notebook.
+        '''
         self.home_tab = ttk.Frame(self._tab)
         self.home_image = tkinter.PhotoImage(file= os.path.join(self.BASE_DIR,'images','home.png'))
         self._tab.add(self.home_tab,text='Home',image=self.home_image,compound=tkinter.LEFT)
@@ -37,18 +44,31 @@ class YoutubeDownloader:
         self._tab.add(self.complete_tab,text='Completed',image=self.complete_image,compound='left')
 
     def _home_tab(self,download_obj,completed_obj):
+        '''
+            Adds all components to home tab.
+        '''
         home = HomeTab(self.home_tab,download_obj,completed_obj)
         home.add()
 
     def _downloading_tab(self):
+        '''
+            Adds all components to download tab
+            and return the download tab object.
+        '''
         self.download = DownloadTab(self.download_tab)
         return self.download
 
     def _compleated_tab(self):
+        '''
+            Adds all components to complete tab.
+        '''
         self.complete = Compleated(self.complete_tab)
         return self.complete
 
     def download(self):
+        '''
+            It is the end point of calling all the functionality.
+        '''
         self.__add()
         self.download_obj = self._downloading_tab()
         self.completed_obj = self._compleated_tab()
